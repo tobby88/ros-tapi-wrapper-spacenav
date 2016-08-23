@@ -15,6 +15,7 @@ Spacenav::Spacenav(NodeHandle* nh)
   this->nh = nh;
   firstRun = true;
   loadUUIDs();
+  generateFeatureMsgs();
   helloClient = nh->serviceClient<tobbyapi_msgs::Hello>("TobbyAPI/HelloServ");
   heartbeatThread = new thread(&Spacenav::heartbeat, this);
 }
@@ -58,6 +59,25 @@ bool Spacenav::connect()
   }
 
   return status;
+}
+
+void Spacenav::generateFeatureMsgs()
+{
+  for (int i = 0; i < 8; i++)
+  {
+    featureMsgs[i].UUID = featureUUIDs[i];
+    featureMsgs[i].FeatureType = tobbyapi_msgs::Feature::Type_AnalogValue;
+  }
+  featureMsgs[0].Name = "Linear X";
+  featureMsgs[1].Name = "Linear Y";
+  featureMsgs[2].Name = "Linear Z";
+  featureMsgs[3].Name = "Angular X";
+  featureMsgs[4].Name = "Angular Y";
+  featureMsgs[5].Name = "Angular Z";
+  featureMsgs[6].FeatureType = tobbyapi_msgs::Feature::Type_Switch;
+  featureMsgs[6].Name = "Button 1";
+  featureMsgs[7].FeatureType = tobbyapi_msgs::Feature::Type_Switch;
+  featureMsgs[7].Name = "Button 2";
 }
 
 string Spacenav::generateUUID()

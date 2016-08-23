@@ -6,6 +6,7 @@
 #include <sensor_msgs/Joy.h>
 #include <string>
 #include <thread>
+#include <tobbyapi_msgs/Feature.h>
 #include <vector>
 
 class Spacenav
@@ -17,6 +18,7 @@ public:
 
 private:
   // Private member variables
+  tobbyapi_msgs::Feature featureMsgs[8];
   std::vector<std::string> featureUUIDs;
   bool firstRun;
   std_msgs::Header header;
@@ -28,6 +30,7 @@ private:
 
   // Private member functions
   bool connect();
+  void generateFeatureMsgs();
   std::string generateUUID();
   void heartbeat();
   void loadUUIDs();
