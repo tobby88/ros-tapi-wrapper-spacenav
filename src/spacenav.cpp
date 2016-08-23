@@ -17,7 +17,6 @@ Spacenav::Spacenav(NodeHandle* nh)
   loadUUIDs();
   helloClient = nh->serviceClient<tobbyapi_msgs::Hello>("TobbyAPI/HelloServ");
   heartbeatThread = new thread(&Spacenav::heartbeat, this);
-  heartbeatThread->detach();
 }
 
 Spacenav::~Spacenav()
