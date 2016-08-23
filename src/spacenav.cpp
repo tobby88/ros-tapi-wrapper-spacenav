@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
-#include <thread>
 #include <uuid/uuid.h>
 
 using namespace ros;
