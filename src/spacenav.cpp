@@ -1,7 +1,9 @@
 #include "spacenav.hpp"
 #include "tobbyapi_msgs/Hello.h"
 #include <algorithm>
+#include <chrono>
 #include <fstream>
+#include <thread>
 #include <uuid/uuid.h>
 
 using namespace ros;
@@ -12,16 +14,24 @@ using namespace std;
 Spacenav::Spacenav(NodeHandle* nh)
 {
   this->nh = nh;
+  firstRun = true;
   loadUUID();
   helloClient = nh->serviceClient<tobbyapi_msgs::Hello>("TobbyAPI/HelloServ");
+  heartbeatThread = new thread(&Spacenav::heartbeat, this);
+  heartbeatThread->detach();
 }
 
-Spacenav::~Spacenav() {}
-
-// Public member functions
-
-bool Spacenav::Connect()
+Spacenav::~Spacenav()
 {
+  heartbeatThread->join();
+  delete heartbeatThread;
+}
+
+// Private member functions
+
+bool Spacenav::connect()
+{
+  bool status = false;
   tobbyapi_msgs::Hello hello;
   header.stamp = Time::now();
   header.seq++;
@@ -31,28 +41,43 @@ bool Spacenav::Connect()
   hello.request.DeviceType = tobbyapi_msgs::HelloRequest::Type_SenderDevice;
   if (helloClient.call(hello))
   {
-    if (hello.response.Status == tobbyapi_msgs::Hello::Response::StatusOK)
+    status = hello.response.Status;
+    if (firstRun)
     {
-
-      ROS_INFO("Connection established, Status OK, Heartbeat %u",
-               hello.response.Heartbeat);
-      return true;
+      if (status)
+        ROS_INFO("Connection established, Status OK, Heartbeat %u",
+                 hello.response.Heartbeat);
+      else
+        ROS_INFO("Connection error, Heartbeat %u", hello.response.Heartbeat);
+      firstRun = false;
     }
-    else
-    {
-      ROS_INFO("Connection error, Heartbeat %u", hello.response.Heartbeat);
-      return false;
-    }
+    heartbeatInterval = hello.response.Heartbeat;
   }
   else
   {
     ROS_ERROR("Failed to establish connection to hello service");
-    return false;
+    status = false;
   }
-  return false;
+
+  return status;
 }
 
-// Private member functions
+void Spacenav::heartbeat()
+{
+  while (ros::ok())
+  {
+    bool success = false;
+    unsigned long waitmsOnError = 1000;
+    success = connect();
+    if (!success)
+    {
+      this_thread::sleep_for(chrono::milliseconds(waitmsOnError));
+      continue;
+    }
+    else
+      this_thread::sleep_for(chrono::milliseconds(heartbeatInterval));
+  }
+}
 
 void Spacenav::loadUUID()
 {
