@@ -6,6 +6,7 @@ project(tobbyapi_wrapper_spacenav)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  std_msgs
   tobbyapi_msgs
 )
 
@@ -104,7 +105,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES tobbyapi_wrapper_spacenav
-  CATKIN_DEPENDS message_runtime roscpp tobbyapi_msgs
+  CATKIN_DEPENDS message_runtime roscpp std_msgs tobbyapi_msgs
 #  DEPENDS system_lib
 )
 
