@@ -14,7 +14,7 @@ Spacenav::Spacenav(NodeHandle* nh)
 {
   this->nh = nh;
   firstRun = true;
-  loadUUID();
+  loadUUIDs();
   helloClient = nh->serviceClient<tobbyapi_msgs::Hello>("TobbyAPI/HelloServ");
   heartbeatThread = new thread(&Spacenav::heartbeat, this);
   heartbeatThread->detach();
@@ -78,8 +78,9 @@ void Spacenav::heartbeat()
   }
 }
 
-void Spacenav::loadUUID()
+void Spacenav::loadUUIDs()
 {
+  // Read (or generate, if not existing) Device-UUID
   string uuid;
   string homedir = getenv("HOME");
   string filename = homedir + "/.ros/tobbyapi_wrapper_spacenav_dev_uuid.txt";
@@ -104,5 +105,19 @@ void Spacenav::loadUUID()
     uuidFileOutput.close();
   }
   this->uuid = uuid;
+
+  // Now also look for Feature-UUIDs
+  filename = homedir + "/.ros/tobbyapi_wrapper_spacenav_feature_uuids.txt";
+  uuidFileInput.open(filename);
+  if (uuidFileInput.is_open())
+  {
+    while (getline(uuidFileInput, uuid))
+    {
+      featureUUIDs.push_back(uuid);
+      ROS_INFO("%s", uuid.c_str());
+    }
+    uuidFileInput.close();
+  }
+
   return;
 }

@@ -5,6 +5,7 @@
 #include "std_msgs/Header.h"
 #include <string>
 #include <thread>
+#include <vector>
 
 class Spacenav
 {
@@ -15,6 +16,7 @@ public:
 
 private:
   // Private member variables
+  std::vector<std::string> featureUUIDs;
   bool firstRun;
   std_msgs::Header header;
   unsigned long heartbeatInterval;
@@ -26,7 +28,7 @@ private:
   // Private member functions
   bool connect();
   void heartbeat();
-  void loadUUID();
+  void loadUUIDs();
 };
 
 #endif // SPACENAV_H
