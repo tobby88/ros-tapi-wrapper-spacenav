@@ -110,13 +110,27 @@ void Spacenav::loadUUIDs()
   uuidFileInput.open(filename);
   if (uuidFileInput.is_open())
   {
+    featureUUIDs.clear();
     while (getline(uuidFileInput, uuid))
-    {
       featureUUIDs.push_back(uuid);
-      ROS_INFO("%s", uuid.c_str());
-    }
-    uuidFileInput.close();
   }
-
+  uuidFileInput.close();
+  if (featureUUIDs.size() != 8)
+  {
+    ofstream uuidFileOutput;
+    uuidFileOutput.open(filename, ios::app);
+    while (featureUUIDs.size() < 8)
+    {
+      uuid_t uuidt;
+      uuid_generate_random(uuidt);
+      char uuid_array[37];
+      uuid_unparse(uuidt, uuid_array);
+      uuid = uuid_array;
+      replace(uuid.begin(), uuid.end(), '-', '_');
+      featureUUIDs.push_back(uuid);
+      uuidFileOutput << uuid << "\n";
+    }
+    uuidFileOutput.close();
+  }
   return;
 }
