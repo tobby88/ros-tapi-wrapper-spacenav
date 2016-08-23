@@ -3,10 +3,10 @@
 
 #include "ros/ros.h"
 #include "std_msgs/Header.h"
+#include <sensor_msgs/Joy.h>
 #include <string>
 #include <thread>
 #include <vector>
-#include <sensor_msgs/Joy.h>
 
 class Spacenav
 {
