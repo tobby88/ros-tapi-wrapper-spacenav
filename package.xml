@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>tobbyapi_wrapper_spacenav</name>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <description>Wrapper to connect spacenav_node to TobbyAPI</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
