@@ -88,8 +88,8 @@ void Spacenav::loadUUIDs()
   if (uuidFileInput.is_open())
   {
     getline(uuidFileInput, uuid);
-    uuidFileInput.close();
   }
+  uuidFileInput.close();
   if (uuid.empty())
   {
     ofstream uuidFileOutput;
