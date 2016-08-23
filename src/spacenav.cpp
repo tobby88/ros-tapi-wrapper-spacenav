@@ -60,6 +60,18 @@ bool Spacenav::connect()
   return status;
 }
 
+string Spacenav::generateUUID()
+{
+  uuid_t uuidt;
+  char uuid_array[37];
+  string uuid_string;
+  uuid_generate_random(uuidt);
+  uuid_unparse(uuidt, uuid_array);
+  uuid_string = uuid_array;
+  replace(uuid_string.begin(), uuid_string.end(), '-', '_');
+  return uuid_string;
+}
+
 void Spacenav::heartbeat()
 {
   while (ros::ok())
@@ -94,12 +106,7 @@ void Spacenav::loadUUIDs()
   {
     ofstream uuidFileOutput;
     uuidFileOutput.open(filename);
-    uuid_t uuidt;
-    uuid_generate_random(uuidt);
-    char uuid_array[37];
-    uuid_unparse(uuidt, uuid_array);
-    uuid = uuid_array;
-    replace(uuid.begin(), uuid.end(), '-', '_');
+    uuid = generateUUID();
     uuidFileOutput << uuid;
     uuidFileOutput.close();
   }
@@ -121,12 +128,7 @@ void Spacenav::loadUUIDs()
     uuidFileOutput.open(filename, ios::app);
     while (featureUUIDs.size() < 8)
     {
-      uuid_t uuidt;
-      uuid_generate_random(uuidt);
-      char uuid_array[37];
-      uuid_unparse(uuidt, uuid_array);
-      uuid = uuid_array;
-      replace(uuid.begin(), uuid.end(), '-', '_');
+      uuid = generateUUID();
       featureUUIDs.push_back(uuid);
       uuidFileOutput << uuid << "\n";
     }

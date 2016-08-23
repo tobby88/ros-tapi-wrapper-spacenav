@@ -27,6 +27,7 @@ private:
 
   // Private member functions
   bool connect();
+  std::string generateUUID();
   void heartbeat();
   void loadUUIDs();
 };
