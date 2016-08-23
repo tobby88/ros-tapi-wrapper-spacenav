@@ -1,4 +1,6 @@
 #include "spacenav.hpp"
+#include "std_msgs/Bool.h"
+#include "std_msgs/Float64.h"
 #include "tobbyapi_msgs/Hello.h"
 #include <algorithm>
 #include <chrono>
@@ -16,14 +18,28 @@ Spacenav::Spacenav(NodeHandle* nh)
   firstRun = true;
   loadUUIDs();
   generateFeatureMsgs();
+
   helloClient = nh->serviceClient<tobbyapi_msgs::Hello>("TobbyAPI/HelloServ");
   heartbeatThread = new thread(&Spacenav::heartbeat, this);
+
+  for (int i = 0; i < 6; i++)
+    spacenavPub[i] = nh->advertise<std_msgs::Float64>(
+        "TobbyAPI/" + uuid + "/" + featureUUIDs[i], 1);
+  spacenavPub[6] = nh->advertise<std_msgs::Bool>(
+      "TobbyAPI/" + uuid + "/" + featureUUIDs[6], 1);
+  spacenavPub[7] = nh->advertise<std_msgs::Bool>(
+      "TobbyAPI/" + uuid + "/" + featureUUIDs[7], 1);
+
+  spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
 
 Spacenav::~Spacenav()
 {
   heartbeatThread->join();
   delete heartbeatThread;
+  spacenavSub.shutdown();
+  for (int i = 0; i < 8; i++)
+    spacenavPub[i].shutdown();
 }
 
 // Private member functions
@@ -60,6 +76,21 @@ bool Spacenav::connect()
   }
 
   return status;
+}
+
+void Spacenav::forwardData(const sensor_msgs::Joy::ConstPtr& received)
+{
+  for (int i = 0; i < 6; i++)
+  {
+    std_msgs::Float64 forward;
+    forward.data = received->axes[i];
+    spacenavPub[i].publish(forward);
+  }
+  std_msgs::Bool forward;
+  forward.data = received->buttons[0];
+  spacenavPub[6].publish(forward);
+  forward.data = received->buttons[1];
+  spacenavPub[7].publish(forward);
 }
 
 void Spacenav::generateFeatureMsgs()

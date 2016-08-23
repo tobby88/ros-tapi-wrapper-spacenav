@@ -1,7 +1,5 @@
 #include "ros/ros.h"
 #include "spacenav.hpp"
-#include <chrono>
-#include <thread>
 
 using namespace std;
 
@@ -12,7 +10,7 @@ int main(int argc, char** argv)
   Spacenav* spacenav = new Spacenav(&nh);
   while (ros::ok())
   {
-    this_thread::sleep_for(chrono::milliseconds(100));
+    ros::spin();
   }
   delete spacenav;
   return 0;

@@ -26,10 +26,13 @@ private:
   std::thread* heartbeatThread;
   ros::ServiceClient helloClient;
   ros::NodeHandle* nh;
+  ros::Publisher spacenavPub[8];
+  ros::Subscriber spacenavSub;
   std::string uuid;
 
   // Private member functions
   bool connect();
+  void forwardData(const sensor_msgs::Joy::ConstPtr& received);
   void generateFeatureMsgs();
   std::string generateUUID();
   void heartbeat();
