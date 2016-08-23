@@ -38,6 +38,7 @@ bool Spacenav::connect()
   hello.request.Name = "Spacenav";
   hello.request.UUID = uuid;
   hello.request.DeviceType = tobbyapi_msgs::HelloRequest::Type_SenderDevice;
+  hello.request.Features = featureMsgs;
   if (helloClient.call(hello))
   {
     status = hello.response.Status;
@@ -63,6 +64,7 @@ bool Spacenav::connect()
 
 void Spacenav::generateFeatureMsgs()
 {
+  tobbyapi_msgs::Feature featureMsgs[8];
   for (int i = 0; i < 8; i++)
   {
     featureMsgs[i].UUID = featureUUIDs[i];
@@ -78,6 +80,8 @@ void Spacenav::generateFeatureMsgs()
   featureMsgs[6].Name = "Button 1";
   featureMsgs[7].FeatureType = tobbyapi_msgs::Feature::Type_Switch;
   featureMsgs[7].Name = "Button 2";
+  for (int i = 0; i < 8; i++)
+    this->featureMsgs.push_back(featureMsgs[i]);
 }
 
 string Spacenav::generateUUID()
