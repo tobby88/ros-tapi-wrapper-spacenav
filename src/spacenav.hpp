@@ -1,13 +1,13 @@
 #ifndef SPACENAV_H
 #define SPACENAV_H
 
-#include "ros/ros.h"
-#include "std_msgs/Header.h"
-#include "tobbyapi_msgs/Feature.h"
 #include <sensor_msgs/Joy.h>
 #include <string>
 #include <thread>
 #include <vector>
+#include "ros/ros.h"
+#include "std_msgs/Header.h"
+#include "tobbyapi_msgs/Feature.h"
 
 class Spacenav
 {
@@ -39,4 +39,4 @@ private:
   void loadUUIDs();
 };
 
-#endif // SPACENAV_H
+#endif  // SPACENAV_H

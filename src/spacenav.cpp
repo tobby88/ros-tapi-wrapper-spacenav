@@ -1,11 +1,11 @@
 #include "spacenav.hpp"
-#include "std_msgs/Bool.h"
-#include "std_msgs/Float64.h"
-#include "tobbyapi_msgs/Hello.h"
+#include <uuid/uuid.h>
 #include <algorithm>
 #include <chrono>
 #include <fstream>
-#include <uuid/uuid.h>
+#include "std_msgs/Bool.h"
+#include "std_msgs/Float64.h"
+#include "tobbyapi_msgs/Hello.h"
 
 using namespace ros;
 using namespace std;
@@ -23,12 +23,9 @@ Spacenav::Spacenav(NodeHandle* nh)
   heartbeatThread = new thread(&Spacenav::heartbeat, this);
 
   for (int i = 0; i < 6; i++)
-    spacenavPub[i] = nh->advertise<std_msgs::Float64>(
-        "TobbyAPI/" + uuid + "/" + featureUUIDs[i], 1);
-  spacenavPub[6] = nh->advertise<std_msgs::Bool>(
-      "TobbyAPI/" + uuid + "/" + featureUUIDs[6], 1);
-  spacenavPub[7] = nh->advertise<std_msgs::Bool>(
-      "TobbyAPI/" + uuid + "/" + featureUUIDs[7], 1);
+    spacenavPub[i] = nh->advertise<std_msgs::Float64>("TobbyAPI/" + uuid + "/" + featureUUIDs[i], 1);
+  spacenavPub[6] = nh->advertise<std_msgs::Bool>("TobbyAPI/" + uuid + "/" + featureUUIDs[6], 1);
+  spacenavPub[7] = nh->advertise<std_msgs::Bool>("TobbyAPI/" + uuid + "/" + featureUUIDs[7], 1);
 
   spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
@@ -61,8 +58,7 @@ bool Spacenav::connect()
     if (firstRun)
     {
       if (status)
-        ROS_INFO("Connection established, Status OK, Heartbeat %u",
-                 hello.response.Heartbeat);
+        ROS_INFO("Connection established, Status OK, Heartbeat %u", hello.response.Heartbeat);
       else
         ROS_INFO("Connection error, Heartbeat %u", hello.response.Heartbeat);
       firstRun = false;
