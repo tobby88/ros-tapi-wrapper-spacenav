@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "TobbyAPI_Wrapper_Spacenav");
   ros::NodeHandle nh;
-  Spacenav* spacenav = new Spacenav(&nh);
+  Tapi::Spacenav* spacenav = new Tapi::Spacenav(&nh);
   while (ros::ok())
   {
     ros::spin();

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tobbyapi_wrapper_spacenav)
+project(tapi_wrapper_spacenav)
 
 # Use specified C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -11,7 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
-  tobbyapi_msgs
+  tapi_clientlib
+  tapi_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,8 +109,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES tobbyapi_wrapper_spacenav
-  CATKIN_DEPENDS message_runtime roscpp sensor_msgs std_msgs tobbyapi_msgs
+  LIBRARIES tapi_clientlib
+  CATKIN_DEPENDS message_runtime roscpp sensor_msgs std_msgs tapi_msgs
 #  DEPENDS system_lib
 )
 
@@ -124,27 +125,27 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(tobbyapi_wrapper_spacenav
-#   src/${PROJECT_NAME}/tobbyapi_wrapper_spacenav.cpp
+# add_library(tapi_wrapper_spacenav
+#   src/${PROJECT_NAME}/tapi_wrapper_spacenav.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(tobbyapi_wrapper_spacenav ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(tapi_wrapper_spacenav ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(tobbyapi_wrapper_spacenav
+add_executable(tapi_wrapper_spacenav
   src/main.cpp
   src/spacenav.cpp
 )
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(tobbyapi_wrapper_spacenav ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(tapi_wrapper_spacenav ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(tobbyapi_wrapper_spacenav
+target_link_libraries(tapi_wrapper_spacenav
   ${catkin_LIBRARIES}
   uuid
 )
@@ -164,7 +165,7 @@ target_link_libraries(tobbyapi_wrapper_spacenav
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS tobbyapi_wrapper_spacenav tobbyapi_wrapper_spacenav_node
+# install(TARGETS tapi_wrapper_spacenav tapi_wrapper_spacenav
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -189,7 +190,7 @@ target_link_libraries(tobbyapi_wrapper_spacenav
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_tobbyapi_wrapper_spacenav.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_tapi_wrapper_spacenav.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

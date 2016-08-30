@@ -2,13 +2,11 @@
 #define SPACENAV_H
 
 #include <sensor_msgs/Joy.h>
-#include <string>
-#include <thread>
-#include <vector>
 #include "ros/ros.h"
-#include "std_msgs/Header.h"
-#include "tobbyapi_msgs/Feature.h"
+#include "tapi_clientlib/publisher.hpp"
 
+namespace Tapi
+{
 class Spacenav
 {
 public:
@@ -18,25 +16,14 @@ public:
 
 private:
   // Private member variables
-  std::vector<tobbyapi_msgs::Feature> featureMsgs;
-  std::vector<std::string> featureUUIDs;
-  bool firstRun;
-  std_msgs::Header header;
-  unsigned long heartbeatInterval;
-  std::thread* heartbeatThread;
-  ros::ServiceClient helloClient;
+  Tapi::Publisher* apiPub;
   ros::NodeHandle* nh;
-  ros::Publisher spacenavPub[8];
+  ros::Publisher* spacenavPub[8];
   ros::Subscriber spacenavSub;
-  std::string uuid;
 
   // Private member functions
-  bool connect();
   void forwardData(const sensor_msgs::Joy::ConstPtr& received);
-  void generateFeatureMsgs();
-  std::string generateUUID();
-  void heartbeat();
-  void loadUUIDs();
 };
+}
 
 #endif  // SPACENAV_H
