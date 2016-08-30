@@ -3,14 +3,13 @@
 #include "std_msgs/Float64.h"
 #include "tapi_msgs/Feature.h"
 
-using namespace ros;
 using namespace std;
 
 namespace Tapi
 {
 // Constructor/Destructor
 
-Spacenav::Spacenav(NodeHandle* nh) : nh(nh)
+Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
 {
   apiPub = new Tapi::Publisher(nh, "wrapper_spacenav");
 
