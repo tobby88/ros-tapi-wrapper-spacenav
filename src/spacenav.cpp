@@ -30,11 +30,6 @@ Spacenav::~Spacenav()
 {
   spacenavSub.shutdown();
   delete apiPub;
-  /*for (int i = 0; i < 8; i++)
-  {
-    spacenavPub[i]->shutdown();
-    delete spacenavPub[i];
-  }*/
 }
 
 // Private member functions
