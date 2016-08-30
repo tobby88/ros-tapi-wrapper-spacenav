@@ -1,7 +1,6 @@
 #include "spacenav.hpp"
 #include "std_msgs/Bool.h"
 #include "std_msgs/Float64.h"
-#include "tapi_msgs/Feature.h"
 
 using namespace std;
 
@@ -13,14 +12,14 @@ Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
 {
   apiPub = new Tapi::Publisher(nh, "wrapper_spacenav");
 
-  spacenavPub[0] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear X");
-  spacenavPub[1] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear Y");
-  spacenavPub[2] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear Z");
-  spacenavPub[3] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular X");
-  spacenavPub[4] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular Y");
-  spacenavPub[5] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular Z");
-  spacenavPub[6] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, 1, "Button 1");
-  spacenavPub[7] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, 1, "Button 2");
+  spacenavPub[0] = apiPub->AddFeature<std_msgs::Float64>("Linear X", 1);
+  spacenavPub[1] = apiPub->AddFeature<std_msgs::Float64>("Linear Y", 1);
+  spacenavPub[2] = apiPub->AddFeature<std_msgs::Float64>("Linear Z", 1);
+  spacenavPub[3] = apiPub->AddFeature<std_msgs::Float64>("Angular X", 1);
+  spacenavPub[4] = apiPub->AddFeature<std_msgs::Float64>("Angular Y", 1);
+  spacenavPub[5] = apiPub->AddFeature<std_msgs::Float64>("Angular Z", 1);
+  spacenavPub[6] = apiPub->AddFeature<std_msgs::Bool>("Button 1", 1);
+  spacenavPub[7] = apiPub->AddFeature<std_msgs::Bool>("Button 2", 1);
 
   spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
