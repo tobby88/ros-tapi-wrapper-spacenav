@@ -14,14 +14,14 @@ Spacenav::Spacenav(NodeHandle* nh) : nh(nh)
 {
   apiPub = new Tapi::Publisher(nh, "wrapper_spacenav");
 
-  spacenavPub[0] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Linear X");
-  spacenavPub[1] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Linear Y");
-  spacenavPub[2] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Linear Z");
-  spacenavPub[3] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Angular X");
-  spacenavPub[4] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Angular Y");
-  spacenavPub[5] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, "Angular Z");
-  spacenavPub[6] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, "Button 1");
-  spacenavPub[7] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, "Button 2");
+  spacenavPub[0] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear X");
+  spacenavPub[1] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear Y");
+  spacenavPub[2] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Linear Z");
+  spacenavPub[3] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular X");
+  spacenavPub[4] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular Y");
+  spacenavPub[5] = apiPub->AddFeature(tapi_msgs::Feature::Type_AnalogValue, 1, "Angular Z");
+  spacenavPub[6] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, 1, "Button 1");
+  spacenavPub[7] = apiPub->AddFeature(tapi_msgs::Feature::Type_Switch, 1, "Button 2");
 
   spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
