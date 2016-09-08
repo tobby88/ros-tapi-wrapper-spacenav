@@ -18,7 +18,7 @@ private:
   // Private member variables
   Tapi::Publisher* apiPub;
   ros::NodeHandle* nh;
-  ros::Publisher* spacenavPub[8];
+  ros::Publisher* spacenavPub[9];
   ros::Subscriber spacenavSub;
 
   // Private member functions

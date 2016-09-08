@@ -10,7 +10,7 @@ namespace Tapi
 
 Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
 {
-  apiPub = new Tapi::Publisher(nh, "wrapper_spacenav");
+  apiPub = new Tapi::Publisher(nh, "Spacenav Wrapper");
 
   spacenavPub[0] = apiPub->AddFeature<std_msgs::Float64>("Linear X", 1);
   spacenavPub[1] = apiPub->AddFeature<std_msgs::Float64>("Linear Y", 1);
@@ -20,6 +20,7 @@ Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
   spacenavPub[5] = apiPub->AddFeature<std_msgs::Float64>("Angular Z", 1);
   spacenavPub[6] = apiPub->AddFeature<std_msgs::Bool>("Button 1", 1);
   spacenavPub[7] = apiPub->AddFeature<std_msgs::Bool>("Button 2", 1);
+  spacenavPub[8] = apiPub->AddFeature<sensor_msgs::Joy>("[Optional] Full Joy Message", 1);
 
   spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
@@ -34,6 +35,7 @@ Spacenav::~Spacenav()
 
 void Spacenav::forwardData(const sensor_msgs::Joy::ConstPtr& received)
 {
+  spacenavPub[8]->publish(received);
   for (int i = 0; i < 6; i++)
   {
     std_msgs::Float64 forward;
