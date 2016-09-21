@@ -32,6 +32,14 @@
  *  Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.*
  ******************************************************************************/
 
+/*!
+ * \file spacenav.hpp
+ * \ingroup tapi_wrapper_spacenav
+ * \author Tobias Holst
+ * \date 23 Aug 2016
+ * \brief Declaration of the Tapi::Spacenav-class and definition of its member variables
+ */
+
 #ifndef SPACENAV_H
 #define SPACENAV_H
 
@@ -43,19 +51,58 @@ namespace Tapi
 {
 class Spacenav
 {
+  /*!
+   * \brief Wrapper to connect the spacenav via tapi_core
+   *
+   * This class wraps Joy-messages from the Spacenav_node to tapi-compliant publishers. Users have the choice to connect
+   * the full Joy-messsage or all axes seperately.
+   * \author Tobias Holst
+   * \version 1.2.1
+   */
 public:
   // Constructor/Destructor
+
+  /*!
+   * \brief Create a Tapi::Spacenav object to wrap the data from the spacenav_node. There should be only one of this
+   * type!
+   * \param nh Pointer to a \c ros::NodeHandle created outside of this class
+   */
   Spacenav(ros::NodeHandle* nh);
+
+  //! Shutdown publishers and free memory
   ~Spacenav();
 
 private:
   // Private member variables
+
+  //! \c tapi_lib based Publisher object to create Tapi compliant Publishers
   Tapi::Publisher* apiPub;
+
+  //! NodeHandle-pointer necessary to create subscribers, publishers and services.
   ros::NodeHandle* nh;
+
+  /*!
+   * \brief Pointer to publishers to publish the current data of the spacenav
+   * \see Tapi::Spacenav::forwardData
+   */
   ros::Publisher* spacenavPub[9];
+
+  /*!
+   * \brief Subscriber to listen on the spacenav_node
+   * \see Tapi::Spacenav::forwardData
+   */
   ros::Subscriber spacenavSub;
 
   // Private member functions
+
+  /*!
+   * \brief Forward the data from the spacenav_node as Tapi-compliant publishers
+   *
+   * This function receives messages from the spacenav_node and then re-publishes them. On one topic the whole
+   * Joy-message is redstributed, on the other eight publishers the single axes of the spacenav (six axes) and the two
+   * button topics are published.
+   * \param received The message waiting in the ros message queue where the values of the spacenav are stored
+   */
   void forwardData(const sensor_msgs::Joy::ConstPtr& received);
 };
 }

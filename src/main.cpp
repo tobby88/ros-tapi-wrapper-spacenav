@@ -32,20 +32,35 @@
  *  Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.*
  ******************************************************************************/
 
+/*!
+ * \defgroup tapi_wrapper_spacenav tapi_wrapper_spacenav
+ * \file main.cpp
+ * \ingroup tapi_wrapper_spacenav
+ * \author Tobias Holst
+ * \date 23 Aug 2016
+ * \brief Main function of tapi_wrapper_spacenav
+ */
+
 #include "ros/ros.h"
 #include "spacenav.hpp"
 
-using namespace std;
-
+/*!
+ * \brief Main function of tapi_wrapper_spacenav
+ *
+ * Main function of tapi_wrapper_spacenav to initialize ROS, its NodeHandle and then create the Tapi::Spacenav object to
+ * start the wrapper.
+ * \param argc Number of arguments when started from the console
+ * \param argv \c char pointer to the \c char arrays of the given arguments
+ * \return 0 when exited correctly
+ * \see Tapi::Spacenav
+ */
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "TobbyAPI_Wrapper_Spacenav");
   ros::NodeHandle nh;
   Tapi::Spacenav* spacenav = new Tapi::Spacenav(&nh);
   while (ros::ok())
-  {
-    ros::spin();
-  }
+    ros::spinOnce();
   delete spacenav;
   return 0;
 }

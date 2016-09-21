@@ -32,6 +32,14 @@
  *  Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.*
  ******************************************************************************/
 
+/*!
+ * \file spacenav.cpp
+ * \ingroup tapi_wrapper_spacenav
+ * \author Tobias Holst
+ * \date 23 Aug 2016
+ * \brief Definition of the Tapi::Spacenav-class and its member functions
+ */
+
 #include "spacenav.hpp"
 #include "std_msgs/Bool.h"
 #include "std_msgs/Float64.h"
@@ -44,8 +52,8 @@ namespace Tapi
 
 Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
 {
+  // Create all Tapi-compliant publishers
   apiPub = new Tapi::Publisher(nh, "Spacenav Wrapper");
-
   spacenavPub[0] = apiPub->AddFeature<std_msgs::Float64>("Linear X", 1);
   spacenavPub[1] = apiPub->AddFeature<std_msgs::Float64>("Linear Y", 1);
   spacenavPub[2] = apiPub->AddFeature<std_msgs::Float64>("Linear Z", 1);
@@ -56,6 +64,7 @@ Spacenav::Spacenav(ros::NodeHandle* nh) : nh(nh)
   spacenavPub[7] = apiPub->AddFeature<std_msgs::Bool>("Button 2", 1);
   spacenavPub[8] = apiPub->AddFeature<sensor_msgs::Joy>("[Optional] Full Joy Message", 1);
 
+  // Subscribe to the spacenav_node
   spacenavSub = nh->subscribe("spacenav/joy", 1, &Spacenav::forwardData, this);
 }
 
@@ -69,7 +78,10 @@ Spacenav::~Spacenav()
 
 void Spacenav::forwardData(const sensor_msgs::Joy::ConstPtr& received)
 {
+  // Get data from spacenav_node and republish it as full Joy message
   spacenavPub[8]->publish(received);
+
+  // Now also republish the data as single topics
   for (int i = 0; i < 6; i++)
   {
     std_msgs::Float64 forward;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>tapi_wrapper_spacenav</name>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <description>Wrapper to connect spacenav_node to Tapi</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
@@ -15,6 +15,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <url type="repository">https://github.com/tobby88/ros-tapi-wrapper-spacenav</url>
+  <url type="website">https://tobby88.github.io/ros-tapi-lib/html/</url>
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
   <!-- Authors do not have to be maintianers, but could be -->
@@ -33,5 +34,6 @@
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
+    <rosdoc config="rosdoc.yaml" />
   </export>
 </package>
