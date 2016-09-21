@@ -24,6 +24,7 @@
   <!-- Dependencies can be catkin packages or system dependencies -->
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>message_runtime</exec_depend>
+  <exec_depend>spacenav_node</exec_depend>
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
