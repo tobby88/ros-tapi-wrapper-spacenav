@@ -17,4 +17,4 @@ msgs: []
 package_type: package
 repo_url: https://github.com/tobby88/ros-tapi-wrapper-spacenav
 srvs: []
-url: https://tobby88.github.io/ros-tapi-lib/html/
+url: https://tobby88.github.io/ros-tapi-wrapper-spacenav/html/
