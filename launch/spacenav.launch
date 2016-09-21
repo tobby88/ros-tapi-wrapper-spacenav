@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="spacenav_node" type="spacenav_node" name="spacenav_node" />
+  <node pkg="tapi_wrapper_spacenav" type="tapi_wrapper_spacenav" name="tapi_wrapper_spacenav" />
+</launch>
